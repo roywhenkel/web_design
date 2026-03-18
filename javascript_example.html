@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simple JS Practice Page</title>
+
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f9fafb;
+      color: #111827;
+      min-height: 100vh;
+      padding: 40px 20px;
+      transition: all 0.4s;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 32px;
+      color: #1e40af;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin: 8px 4px 8px 0;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    button.reset {
+      background: #6b7280;
+    }
+
+    button.reset:hover {
+      background: #4b5563;
+    }
+
+    #message {
+      font-size: 1.3rem;
+      font-weight: 500;
+      margin: 16px 0;
+      min-height: 1.6em;
+    }
+
+    .dark {
+      background: #111827;
+      color: #f3f4f6;
+    }
+
+    .dark .card {
+      background: #1f2937;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    input, select {
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      margin: 8px 0;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .center {
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <h1>JavaScript Basics Demo</h1>
+
+    <!-- Card 1: Counter -->
+    <div class="card">
+      <h2>1. Counter</h2>
+      <div id="count">0</div>
+      <button id="btn-plus">+1</button>
+      <button id="btn-minus">–1</button>
+      <button class="reset" id="btn-reset">Reset</button>
+    </div>
+
+    <!-- Card 2: Greeting -->
+    <div class="card">
+      <h2>2. Personalized Greeting</h2>
+      <input type="text" id="name-input" placeholder="Enter your name..." />
+      <button id="greet-btn">Say Hello</button>
+      <div id="message"></div>
+    </div>
+
+    <!-- Card 3: Dark mode & Color choice -->
+    <div class="card">
+      <h2>3. Theme & Color</h2>
+      <button id="dark-mode-btn">Toggle Dark Mode</button>
+
+      <div style="margin-top: 20px;">
+        <label for="color-select">Pick a highlight color:</label><br>
+        <select id="color-select">
+          <option value="#2563eb">Blue (default)</option>
+          <option value="#dc2626">Red</option>
+          <option value="#059669">Emerald</option>
+          <option value="#7c3aed">Purple</option>
+        </select>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ──────────────── Counter ────────────────
+    let count = 0;
+    const countDisplay = document.getElementById('count');
+    const btnPlus  = document.getElementById('btn-plus');
+    const btnMinus = document.getElementById('btn-minus');
+    const btnReset = document.getElementById('btn-reset');
+
+    function updateCount() {
+      countDisplay.textContent = count;
+      countDisplay.style.color = count > 0 ? '#059669' : count < 0 ? '#dc2626' : '#374151';
+    }
+
+    btnPlus.addEventListener('click', () => {
+      count++;
+      updateCount();
+    });
+
+    btnMinus.addEventListener('click', () => {
+      count--;
+      updateCount();
+    });
+
+    btnReset.addEventListener('click', () => {
+      count = 0;
+      updateCount();
+    });
+
+    // ──────────────── Greeting ────────────────
+    const nameInput = document.getElementById('name-input');
+    const greetBtn  = document.getElementById('greet-btn');
+    const message   = document.getElementById('message');
+
+    greetBtn.addEventListener('click', () => {
+      const name = nameInput.value.trim();
+      if (name) {
+        message.textContent = `Hello, ${name}! 👋 Welcome to JavaScript!`;
+        message.style.color = '#1e40af';
+      } else {
+        message.textContent = "Please enter your name 😄";
+        message.style.color = '#dc2626';
+      }
+    });
+
+    // Bonus: greet when pressing Enter
+    nameInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        greetBtn.click();
+      }
+    });
+
+    // ──────────────── Dark Mode + Color ────────────────
+    const darkModeBtn = document.getElementById('dark-mode-btn');
+    const colorSelect = document.getElementById('color-select');
+    const body = document.body;
+
+    darkModeBtn.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      darkModeBtn.textContent = body.classList.contains('dark')
+        ? 'Switch to Light Mode'
+        : 'Toggle Dark Mode';
+    });
+
+    colorSelect.addEventListener('change', (e) => {
+      const color = e.target.value;
+      document.querySelectorAll('h1, h2, button:not(.reset)').forEach(el => {
+        el.style.color = color;
+      });
+      document.querySelector('h1').style.color = color;
+    });
+  </script>
+
+</body>
+</html>
